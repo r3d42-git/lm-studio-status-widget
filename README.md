@@ -21,6 +21,17 @@ Default server URL:
 http://localhost:1234
 ```
 
+## Install with Homebrew
+
+On Apple Silicon Macs running macOS 15 or newer, install the signed and notarized app with:
+
+```bash
+brew install --cask c5vcpq5gsr-alt/tap/lm-studio-status-widget
+```
+
+The [Homebrew tap](https://github.com/c5vcpq5gsr-alt/homebrew-tap) tracks the latest published GitHub
+release. LM Studio still needs to be installed and its local server needs to be running.
+
 Run locally:
 
 ```bash
