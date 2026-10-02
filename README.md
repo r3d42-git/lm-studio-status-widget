@@ -101,3 +101,11 @@ It contains no analytics, telemetry, advertising, or bundled credentials.
 Starting with v1.2.1, this project is licensed under [GPL-3.0-or-later](LICENSE).
 The original MIT license and 2026 R3D42 copyright notice remain in
 [LICENSE-MIT](LICENSE-MIT) for the earlier releases. See [LICENSING.md](LICENSING.md).
+
+## Abgeschlossener G2-Release 1.2.1 — 2026-10-02
+
+- [1.2.1](https://github.com/r3d42-git/lm-studio-status-widget/releases/tag/v1.2.1) veröffentlicht. Annotierter Tag `v1.2.1` bleibt auf Quellcommit `ba772f7dc6471b54436bc7a9e266c79b2214ba64`; Abschlussbelege folgen separat.
+- 7 Swift-Tests, optimierter Build, nativer Release-/Publish-Pfad und bytegenaue GPL-/MIT-Lizenzmaterialprüfung erfolgreich; beschädigte und fehlende Lizenzmaterialien werden abgelehnt.
+- Exakte Quellcommit-CI [Run 36974791830](https://github.com/r3d42-git/lm-studio-status-widget/actions/runs/36974791830) erfolgreich. Apple-Submission `0b74e00e-78d4-4558-85f8-c4228ed095c1` ist Accepted; die App im finalen ZIP trägt ein validiertes Staple-Ticket.
+- Frischer GitHub-Download: SHA-256 `6e1e120f5af7eb943de8e9120a173a2cd8e1dbfe38846ec14adab54a0830e513`, strikte Signatur, Bundle-Metadaten, Architektur, Ticket und Gatekeeper erfolgreich. Zusätzliche Leaf-Prüfung bestätigt exakt G2 `D548540E7FE1BD9B3C4518CC02D8786E1BFEB885`.
+- Asset `LMStudioStatusWidget-1.2.1-macOS-arm64.zip`, Version/Build `1.2.1/6`, Bundle-ID `local.codex.LMStudioStatusWidget`. Keine neue manuelle UI-Abnahme abgeleitet.
