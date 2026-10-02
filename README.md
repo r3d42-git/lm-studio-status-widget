@@ -59,7 +59,7 @@ Local prerequisites:
 Create and verify a local release without publishing it:
 
 ```bash
-./script/release.sh 1.3.0
+./script/release.sh 1.2.1
 ```
 
 This produces the final ZIP, a SHA-256 file, the original notarization submission, and the Apple notary
@@ -69,18 +69,22 @@ Publishing is intentionally separate and requires a clean `main` worktree. It cr
 tag, publishes the GitHub release, downloads the asset again, and re-verifies the downloaded app:
 
 ```bash
-./script/publish_release.sh 1.3.0 path/to/release-notes.md
+./script/publish_release.sh 1.2.1 RELEASE_NOTES/1.2.1.md
 ```
 
 Omit the notes file to use GitHub-generated release notes. Validate everything locally without changing Git or
 GitHub by using:
 
 ```bash
-./script/publish_release.sh --dry-run 1.3.0
+./script/publish_release.sh --dry-run 1.2.1
 ```
 
 GitHub Actions runs `swift test` and `swift build -c release` for pushes and pull requests. Signing and
 notarization stay local, so no Apple certificate or notarization secrets are stored on GitHub.
+
+Starting with v1.2.1, the source and packaged app use `GPL-3.0-or-later`. The full GPLv3 text,
+licensing notice, and preserved historical MIT notice are included in the app. Earlier releases
+retain their MIT license. The release and publish scripts verify these files in the packaged app.
 
 The app polls `/api/v1/models` first and falls back to the OpenAI-compatible `/v1/models` endpoint.
 For a local server it also reads the supported `lms ps --json` runtime status. LM Studio does not expose
@@ -94,6 +98,6 @@ It contains no analytics, telemetry, advertising, or bundled credentials.
 
 ## License and credits
 
-This project is open source under the [MIT License](LICENSE).
-
-Copyright (c) 2026 R3D42
+Starting with v1.2.1, this project is licensed under [GPL-3.0-or-later](LICENSE).
+The original MIT license and 2026 R3D42 copyright notice remain in
+[LICENSE-MIT](LICENSE-MIT) for the earlier releases. See [LICENSING.md](LICENSING.md).

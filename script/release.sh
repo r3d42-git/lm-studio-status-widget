@@ -49,7 +49,8 @@ NOTARY_DIR="$OUTPUT_DIR/notary"
 SUBMISSION_ZIP="$NOTARY_DIR/$APP_NAME-$VERSION-macOS-$ARCHITECTURE-submitted.zip"
 NOTARY_RESULT="$NOTARY_DIR/$APP_NAME-$VERSION-notary-result.json"
 NOTARY_LOG="$NOTARY_DIR/$APP_NAME-$VERSION-notary-log.json"
-SIGNING_IDENTITY="${MACOS_SIGNING_IDENTITY:-Developer ID Application: Philipp John Hild (G6JH37W285)}"
+# Fingerprint selects G2 when Developer ID certificates share a name.
+SIGNING_IDENTITY="${MACOS_SIGNING_IDENTITY:-D548540E7FE1BD9B3C4518CC02D8786E1BFEB885}"
 NOTARY_PROFILE="${MACOS_NOTARY_PROFILE:-LMStudioStatusWidget-notary}"
 BUILD_NUMBER="${RELEASE_BUILD_NUMBER:-$(git -C "$ROOT_DIR" rev-list --count HEAD)}"
 
@@ -72,6 +73,8 @@ if [[ -z "${DEVELOPER_DIR:-}" && -d /Applications/Xcode.app/Contents/Developer ]
 fi
 export CLANG_MODULE_CACHE_PATH="${CLANG_MODULE_CACHE_PATH:-$ROOT_DIR/.build/clang-module-cache}"
 
+"$ROOT_DIR/script/verify_license_material.sh" "$ROOT_DIR"
+
 echo "==> Testing Swift package"
 (cd "$ROOT_DIR" && swift test)
 
@@ -88,6 +91,10 @@ rm -f "$FINAL_ZIP" "$CHECKSUM_FILE" "$SUBMISSION_ZIP" "$NOTARY_RESULT" "$NOTARY_
 mkdir -p "$APP_MACOS" "$APP_RESOURCES"
 cp "$BUILD_BINARY" "$APP_BINARY"
 cp "$APP_ICON_SOURCE" "$APP_RESOURCES/$APP_ICON_NAME"
+for notice in LICENSE LICENSING.md LICENSE-MIT; do
+  cp "$ROOT_DIR/$notice" "$APP_RESOURCES/$notice"
+done
+"$ROOT_DIR/script/verify_license_material.sh" "$APP_RESOURCES"
 chmod 755 "$APP_BINARY"
 
 cat >"$INFO_PLIST" <<PLIST
@@ -169,6 +176,7 @@ VERIFY_DIR="$(mktemp -d /private/tmp/lmstudio-widget-release-verify.XXXXXX)"
 trap 'rm -rf "$VERIFY_DIR"' EXIT
 ditto -x -k "$FINAL_ZIP" "$VERIFY_DIR"
 EXTRACTED_APP="$VERIFY_DIR/$APP_NAME.app"
+"$ROOT_DIR/script/verify_license_material.sh" "$EXTRACTED_APP/Contents/Resources"
 [[ "$(plutil -extract CFBundleShortVersionString raw -o - "$EXTRACTED_APP/Contents/Info.plist")" == "$VERSION" ]] || \
   die "extracted app version does not match $VERSION"
 file "$EXTRACTED_APP/Contents/MacOS/$APP_NAME" | grep -F "arm64" >/dev/null || \

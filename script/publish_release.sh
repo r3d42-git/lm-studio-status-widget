@@ -67,6 +67,7 @@ PUBLISH_NOTES="$(mktemp /private/tmp/lmstudio-widget-release-notes.XXXXXX)"
 trap 'rm -rf "$VERIFY_DIR"; rm -f "$PUBLISH_NOTES"' EXIT
 ditto -x -k "$ARTIFACT" "$VERIFY_DIR"
 EXTRACTED_APP="$VERIFY_DIR/$APP_NAME.app"
+"$ROOT_DIR/script/verify_license_material.sh" "$EXTRACTED_APP/Contents/Resources"
 [[ "$(plutil -extract CFBundleShortVersionString raw -o - "$EXTRACTED_APP/Contents/Info.plist")" == "$VERSION" ]] || \
   die "app version does not match $VERSION"
 file "$EXTRACTED_APP/Contents/MacOS/$APP_NAME" | grep -F "arm64" >/dev/null || \
@@ -141,6 +142,7 @@ PUBLISHED_EXTRACT="$PUBLISHED_DIR/extracted"
 mkdir -p "$PUBLISHED_EXTRACT"
 ditto -x -k "$PUBLISHED_ARTIFACT" "$PUBLISHED_EXTRACT"
 PUBLISHED_APP="$PUBLISHED_EXTRACT/$APP_NAME.app"
+"$ROOT_DIR/script/verify_license_material.sh" "$PUBLISHED_APP/Contents/Resources"
 [[ "$(plutil -extract CFBundleShortVersionString raw -o - "$PUBLISHED_APP/Contents/Info.plist")" == "$VERSION" ]] || \
   die "published app version does not match $VERSION"
 codesign --verify --deep --strict --verbose=2 "$PUBLISHED_APP"

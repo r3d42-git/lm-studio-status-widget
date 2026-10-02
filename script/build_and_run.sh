@@ -27,6 +27,9 @@ BUILD_BINARY="$(swift build --show-bin-path)/$APP_NAME"
 mkdir -p "$APP_MACOS" "$APP_RESOURCES"
 cp "$BUILD_BINARY" "$APP_BINARY"
 cp "$APP_ICON_SOURCE" "$APP_RESOURCES/$APP_ICON_NAME"
+for notice in LICENSE LICENSING.md LICENSE-MIT; do
+  cp "$ROOT_DIR/$notice" "$APP_RESOURCES/$notice"
+done
 chmod +x "$APP_BINARY"
 
 cat >"$INFO_PLIST" <<PLIST
